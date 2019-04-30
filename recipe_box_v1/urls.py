@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.urls import path
 from recipe_box_v1.admin import admin
-from recipe_box_v1.views import index, recipe
+from recipe_box_v1.views import index, recipe, author
 from recipe_box_v1.models import RecipeAuthor
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
-    path('recipe/<int:recipe_id>/',recipe)
+    path('recipe/<int:recipe_id>/',recipe),
+    path('author/<int:author_id>/', author)
 ]

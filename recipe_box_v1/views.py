@@ -1,14 +1,20 @@
 from django.shortcuts import render
 from recipe_box_v1.models import Recipe
+from recipe_box_v1.models import RecipeAuthor
 
 def index(request):
+    recipes = Recipe.objects.all()
     html = 'index.html'
-    return render(request, html)
+    return render(request, html, {'recipes':recipes})
 
 def recipe(request, recipe_id):
-    print(recipe_id)
     recipe = Recipe.objects.filter(id=recipe_id)
-    print(recipe)
     html = 'recipe.html'
     return render(request, html, {'recipe':recipe})
+
+def author(request, author_id):
+    author = RecipeAuthor.objects.filter(user_backend=author_id)
+    recipes = Recipe.objects.filter(author_id=author_id)
+    html = 'author.html'
+    return render(request, html, {'author':author, 'recipes':recipes})
 

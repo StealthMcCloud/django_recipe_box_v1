@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from recipe_box_v1.models import Recipe
 from recipe_box_v1.models import RecipeAuthor
 from recipe_box_v1.forms import AuthorAddForm, RecipeAddForm
@@ -45,9 +46,13 @@ def add_author(request):
         form = AuthorAddForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            user = User.objects.create(
+                username=data['name'],
+            )
             RecipeAuthor.objects.create(
                 name=data['name'],
-                bio=data['bio']
+                bio=data['bio'],
+                user_backend=user
             )
             return render(request, 'addauthorsuccess.html')
     else:

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -11,8 +12,10 @@ from recipe_box_v1.forms import AuthorAddForm, RecipeAddForm, LoginForm, SignupF
 
 def index(request):
     recipes = Recipe.objects.all()
+    current_user = request.user.username
+    greeting = f'Welcome {current_user}' if current_user else 'Not logged in'
     html = 'index.html'
-    return render(request, html, {'recipes':recipes})
+    return render(request, html, {'recipes':recipes, 'greeting': greeting})
 
 def recipe(request, recipe_id):
     recipe = Recipe.objects.filter(id=recipe_id)
@@ -105,3 +108,7 @@ def signup_view(request):
     else:
         form = SignupForm()
     return render(request, html, {'form': form, 'title': 'signup'})
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('homepage'))

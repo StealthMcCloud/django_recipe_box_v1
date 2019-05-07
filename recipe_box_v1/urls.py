@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 from recipe_box_v1.admin import admin
-from recipe_box_v1.views import index, recipe, author, add_author, add_recipe, login_view, signup_view
+from recipe_box_v1.views import index, recipe, author, add_author, add_recipe, login_view, signup_view, logout_view
 from recipe_box_v1.models import RecipeAuthor
 
 urlpatterns = [
@@ -26,5 +26,6 @@ urlpatterns = [
     path('addauthor/', add_author),
     path('addrecipe/', add_recipe),
     path('login/', login_view),
-    path('signup/', signup_view)
+    path('signup/', signup_view),
+    path('logout/', logout_view)
 ]

@@ -10,4 +10,12 @@ class RecipeAddForm(forms.Form):
     description = forms.CharField(max_length=1000)
     time_required = forms.CharField(max_length=50)
     instructions = forms.CharField(widget=forms.Textarea)
-    author = forms.ModelChoiceField(queryset=RecipeAuthor.objects.all())
+    # author = forms.ModelChoiceField(queryset=RecipeAuthor.objects.all())
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(widget=forms.PasswordInput())
+
+class SignupForm(forms.Form):
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(widget=forms.PasswordInput())

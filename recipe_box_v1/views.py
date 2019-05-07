@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from recipe_box_v1.models import Recipe
 from recipe_box_v1.models import RecipeAuthor
-from recipe_box_v1.forms import AuthorAddForm, RecipeAddForm, LoginForm, SignupForm
+from recipe_box_v1.forms import AuthorAddForm, RecipeAddForm, LoginForm, SignupForm, SudoRecipeAddForm
 
 def index(request):
     recipes = Recipe.objects.all()
@@ -36,17 +36,24 @@ def add_recipe(request):
         form = RecipeAddForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            try:
+                author = data['author']
+            except:
+                author = request.user.recipeauthor
             Recipe.objects.create(
                 title=data['title'],
                 # author=data['author'],
-                author=request.user.recipeauthor,
+                author=author,
                 description=data['description'],
                 time_required=data['time_required'],
                 instructions=data['instructions']
             )
             return render(request, 'addrecipesuccess.html')
     else:
-        form = RecipeAddForm()
+        if request.user.is_staff:
+            form = SudoRecipeAddForm
+        else:
+            form = RecipeAddForm()
     return render(request, html, {'form': form})
 
 @login_required

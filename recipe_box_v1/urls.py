@@ -23,6 +23,8 @@ urlpatterns = [
     path('', index),
     path('recipe/<int:recipe_id>/',recipe),
     path('author/<int:author_id>/', author),
+    path("addedrecipe/<int:recipeid>/", addedrecipe),
+    path("favorite/<int:recipe_id>", toggle_favorite_recipe_view),
     path('addauthor/', add_author),
     path('addrecipe/', add_recipe)
 ]
